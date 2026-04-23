@@ -17,16 +17,16 @@ body {
     font-family: 'poppins' , sans-serif;
     background-color: var(--bg);
     color: #fff;
-    min-height: 2000px;
+    min-height: 3000px;
 }
 
-/* Navbar */
+/* ==== Navbar ==== */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1.4rem 7%;
-    background-color: rgb(1, 1, 1, 0,8);
+    background-color: rgba(1, 1, 1, 0,8);
     border-bottom: 1px solid #654c32;
     position: fixed;
     top: 0;
@@ -83,7 +83,7 @@ body {
     display: none;
 }
 
-/* Hero Section */
+/* ==== Hero Section ==== */
 .hero {
     min-height: 100vh;
     display: flex;
@@ -143,7 +143,7 @@ body {
 }
 
 
-/* Abaout Section */
+/* ==== Abaout Section ===== */
 .about {
     padding: 8rem 7% 1.4rem;
 }
@@ -186,6 +186,85 @@ body {
     font-weight: 100;
     line-height: 1.6;
 }
+
+/* ==== Menu Section ==== */
+.menu {
+    padding: 8rem 7% 1.4rem;
+}
+
+.menu h2 {
+    text-align: center;
+    font-size: 2.6rem;
+    margin-bottom: 3rem;
+}
+
+.menu h2 span {
+    color: var(--primary);
+}
+
+.menu p {
+    text-align: center;
+    margin: 1rem auto;
+    max-width: 600px;
+}
+
+
+/* ===== MENU GRID ===== */
+.menu .row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+/* ===== CARD MENU ===== */
+.menu-card {
+  background: #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+  padding: 15px;
+  transition: 0.3s;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ===== IMAGE ===== */
+.menu-card-img {
+  width: 50%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* ===== TITLE ===== */
+.menu-card-title {
+  margin: 10px 0 5px;
+  font-size: 18px;
+  color: #b6895b;
+}
+
+/* ===== PRICE ===== */
+.menu-card-price {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* ===== HOVER EFFECT ===== */
+.menu-card:hover {
+  transform: translateY(-8px);
+  border-color: #b6895b;
+}
+
+/* ===== RESPONSIVE MOBILE ===== */
+@media (max-width: 600px) {
+  .menu-card-img {
+    height: 160px;
+  }
+}
+
+
+
+
 /* Media Queries */
 
 /* Laptop */
