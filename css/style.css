@@ -17,7 +17,6 @@ body {
     font-family: 'poppins' , sans-serif;
     background-color: var(--bg);
     color: #fff;
-    min-height: 3000px;
 }
 
 /* ==== Navbar ==== */
@@ -26,7 +25,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 1.4rem 7%;
-    background-color: rgba(1, 1, 1, 0,8);
+    background-color: rgba(1, 1, 1, 0.8);
     border-bottom: 1px solid #654c32;
     position: fixed;
     top: 0;
@@ -53,7 +52,7 @@ body {
     margin: 0 1rem;
 }
 
-.navbar.navbar-nav a:hover {
+.navbar .navbar-nav a:hover {
     color: var(--primary);
 }
 
@@ -125,7 +124,7 @@ body {
 .hero .content p {
     font-size: 1.2rem;
     margin-top: 0.5rem;
-    line-height: 1.2rem;
+    line-height: 1.6;
     font-weight: 100;
     text-shadow: 1px 1px 3px rgba(1, 1, 3, 0.5); 
     
@@ -315,7 +314,15 @@ body {
 
     .about .row {
         flex-wrap: wrap;
+    }
+
+    .about .row .about-img {
         height: 24rem;
+        overflow: hidden;
+    }
+
+    .about .row .about-img img {
+        height: 100%;
         object-fit: cover;
         object-position: center;
     }
