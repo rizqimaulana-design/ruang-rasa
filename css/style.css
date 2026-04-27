@@ -21,7 +21,7 @@ body {
 
 
 
-/* ==== Navbar ==== */
+/* ==== NAVBAR ==== */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -84,7 +84,7 @@ body {
     display: none;
 }
 
-/* ==== Hero Section ==== */
+/* ==== HERO SECTION ==== */
 .hero {
     min-height: 100vh;
     display: flex;
@@ -144,7 +144,7 @@ body {
 }
 
 
-/* ==== Abaout Section ===== */
+/* ==== ABOUT SECTION ===== */
 .about {
     padding: 8rem 7% 1.4rem;
 }
@@ -188,7 +188,7 @@ body {
     line-height: 1.6;
 }
 
-/* ==== Menu Section ==== */
+/* ==== MENU SECTION ==== */
 .menu {
     padding: 8rem 7% 1.4rem;
 }
@@ -256,6 +256,20 @@ body {
   border-color: #b6895b;
 }
 
+/* ===== PAGE SECTION SHOW/HIDE ===== */
+.page-section {
+    display: none;
+}
+
+.page-section.active {
+    display: block;
+}
+
+/* ==== HERO PERLU FLEXBOX SAAT AKTIF ====*/
+.hero.page-section.active {
+    display: flex;
+}
+
 /* ===== RESPONSIVE MOBILE ===== */
 @media (max-width: 600px) {
   .menu-card-img {
@@ -263,7 +277,7 @@ body {
   }
 }
 
-/* ===== Contact Section ===== */
+/* ===== CONTACT SECTION ===== */
 .contact {
     padding: 8rem 7% 3rem;
 }
@@ -357,7 +371,7 @@ body {
 
 
 
-/* === FOOTER */
+/* === FOOTER === */
 footer {
     background-color: var(--primary);
     text-align: center;
