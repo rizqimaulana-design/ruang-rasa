@@ -19,6 +19,8 @@ body {
     color: #fff;
 }
 
+
+
 /* ==== Navbar ==== */
 .navbar {
     display: flex;
@@ -261,11 +263,144 @@ body {
   }
 }
 
+/* ===== Contact Section ===== */
+.contact {
+    padding: 8rem 7% 3rem;
+}
+
+.contact h2 {
+    text-align: center;
+    font-size: 2.6rem;
+    margin-bottom: 1rem;
+}
+
+.contact h2 span {
+    color: var(--primary);
+}
+
+.contact p {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto 3rem;
+    font-weight: 300;
+    line-height: 1.6;
+}
+
+/* ===== ROW ===== */
+.contact .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    background: #1a1a1a;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* ===== MAP ===== */
+.contact .row .map {
+    flex: 1 1 300px;
+    width: 500px;
+    min-height: 250px;
+    border: 10px;
+}
+
+/* ===== FORM ===== */
+.contact .row form {
+    flex: 1 1 45rem;
+    padding: 3rem 2rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* ===== INPUT GROUP ===== */
+.contact .row form .input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    background: #222;
+    border-radius: 8px;
+    padding: 0 1rem;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.contact .row form .input-group i {
+    font-size: 1.6rem;
+    color: var(--primary);
+    margin-right: 1rem;
+}
+
+.contact .row form .input-group input {
+    width: 100%;
+    padding: 1.2rem;
+    font-size: 1.4rem;
+    background: none;
+    color: #fff;
+}
+
+/* ===== BUTTON ===== */
+.contact .row form .btn {
+    margin-top: 1rem;
+    padding: 1rem;
+    font-size: 1.5rem;
+    color: #fff;
+    background: var(--primary);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.contact .row form .btn:hover {
+    background: #a07850;
+}
 
 
+
+/* === FOOTER */
+footer {
+    background-color: var(--primary);
+    text-align: center;
+    padding: 1rem 0 3rem;
+    margin-top: 3rem;
+}
+
+footer .socials {
+    padding: 1rem 0;
+}
+
+footer .socials a {
+    color: #fff;
+    margin: 1rem;
+}
+
+footer .socials a:hover {
+    color: var(--bg);
+}
+
+footer .liks {
+    margin-bottom: 1.4rem;
+}
+
+footer .liks a:hover {
+    color: var(--bg);
+}
+
+footer .liks a {
+    color: #fff;
+    padding: 0.7rem 1rem;
+}
+
+footer .creadit {
+    font-size: 0.8rem;
+}
+
+footer .creadit a {
+    color: var(--bg);
+    font-weight: 700;
+}
 
 /* Media Queries */
-
 /* Laptop */
 @media (max-width: 1366px) {
     html {
@@ -341,10 +476,27 @@ body {
         font-size: 1.6rem;
     }
 
+    .menu p {
+        font-size: 1.2rem;
+    }
+
+    .contact .row {
+        flex-wrap: wrap;
+    }
+
+    .contact .row .map {
+        height: 30rem;
+    }
+
+    .contact .row form {
+        padding-top: 0;
+    }
+
 }
 /* Mobile Phone*/
 @media (max-width: 450px) {
     html {
         font-size: 55%;
     }
+
 }
