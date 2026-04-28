@@ -256,6 +256,35 @@ body {
   border-color: #b6895b;
 }
 
+/* ===== TOMBOL TAMBAH DI MENU CARD ===== */
+.add-to-cart {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background-color: var(--primary);
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.add-to-cart:hover {
+  background-color: #a07850;
+}
+
+.add-to-cart::before {
+  content: '+';
+  font-size: 16px;
+  font-weight: 700;
+}
+
 /* ===== PAGE SECTION SHOW/HIDE ===== */
 .page-section {
     display: none;
@@ -412,6 +441,147 @@ footer .creadit {
 footer .creadit a {
     color: var(--bg);
     font-weight: 700;
+}
+
+/*=== CART ===*/
+.cart {
+    position: fixed;
+    top: 80px;
+    right: -350px;
+    width: 350px;
+    height: calc(100vh - 80px);
+    background: #1a1a1a;
+    color: #fff;
+    padding: 20px;
+    transition: 0.3s;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart.active {
+    right: 0;
+}
+
+.cart-items-area {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 5px;
+    margin-bottom: 10px;
+}
+
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.cart-header h3 {
+    margin: 0;
+}
+
+.cart-close {
+    font-size: 28px;
+    cursor: pointer;
+    color: #fff;
+    line-height: 1;
+}
+
+.cart-close:hover {
+    color: var(--primary);
+}
+
+.cart ul {
+    list-style: none;
+    padding: 0;
+}
+
+.cart ul li {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 10px;
+    gap: 6px;
+}
+
+.item-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.item-name {
+    font-weight: 600;
+}
+
+.item-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.qty-btn {
+    background: #333;
+    color: #fff;
+    border: 1px solid #555;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    padding: 0;
+}
+
+.qty-btn:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.item-qty {
+    min-width: 20px;
+    text-align: center;
+}
+
+.item-subtotal {
+    margin-left: auto;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.remove-btn {
+    color: red;
+    cursor: pointer;
+    margin-left: 8px;
+    font-size: 14px;
+}
+
+.cart-total {
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #444;
+    background: #1a1a1a;
+}
+
+.cart-total button {
+    width: 100%;
+    padding: 10px;
+    background: #b6895b;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.cart-total button:hover {
+    background: #a07850;
 }
 
 /* Media Queries */
