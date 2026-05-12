@@ -183,23 +183,23 @@ if (isset($_POST['kirim'])) {
 
              <form action="" method="POST">
 
-                <div class="input-group">
+        <div class="input-group">
                     <i data-feather="user"></i> 
-                    <input type="text" name="nama" placeholder="nama" required>
+                    <input type="text" name="nama" placeholder="Nama" required>
                 </div>
 
                 <div class="input-group">
                     <i data-feather="mail"></i> 
-                    <input type="email" name="email" placeholder="email" required>
+                    <input type="email" name="email" placeholder="Email" required>
                 </div>
 
                 <div class="input-group">
                     <i data-feather="phone"></i> 
-                    <input type="text" name="no_hp" placeholder="no hp" required>
+                    <input type="text" name="no_hp" placeholder="No HP" required>
                 </div>
 
                 <div class="input-group">
-                    <textarea name="pesan" placeholder="pesan" required></textarea>
+                    <textarea name="pesan" placeholder="Pesan" required></textarea>
                 </div>
 
                 <button type="submit" name="kirim" class="btn">Kirim Pesan</button>

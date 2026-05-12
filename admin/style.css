@@ -1,0 +1,191 @@
+body{
+    font-family:Poppins;
+    background:#111;
+    margin:0;
+    padding:0;
+    min-height:100vh;
+}
+
+.login-box{
+    background:#222;
+    padding:30px;
+    border-radius:15px;
+    width:350px;
+}
+
+h2{
+    color:white;
+    text-align:center;
+}
+
+iinput{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:none;
+    border-radius:8px;
+
+    font-size:18px;
+    font-weight:500;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    border:none;
+    border-radius:8px;
+    background:#b6895b;
+    color:white;
+    cursor:pointer;
+
+    font-size:18px;
+    font-weight:600;
+}
+
+.error{
+    color:red;
+    text-align:center;
+}
+
+/* === INDEX === */
+
+.dashboard{
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto;
+    color: white;
+}
+
+.dashboard h1{
+    margin-bottom: 10px;
+}
+
+.card-container{
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.card{
+    flex: 1;
+    background: #222;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.card h2{
+    margin-bottom: 10px;
+}
+
+.card p{
+    font-size: 30px;
+    color: #b6895b;
+}
+
+.menu-admin{
+    margin-top: 30px;
+}
+
+.menu-admin a{
+    display: inline-block;
+    padding: 12px 20px;
+    background: #b6895b;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+/* === TANDA KEMBALI MENU === */
+
+.button-group{
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.button-group button{
+    flex: 1;
+}
+.btn-kembali{
+    flex: 1;
+    padding: 12px;
+    margin-top: 15px;
+    background: #444;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    transition: 0.3s;
+    height: 45px;
+}
+
+.btn-kembali:hover{
+    background: #b6895b;
+}
+
+/* === CARD === */
+
+.card-link{
+    text-decoration: none;
+    flex: 1;
+    color: white;
+}
+
+.card-link .card{
+    transition: 0.3s;
+}
+
+.card-link .card:hover{
+    transform: translateY(-5px);
+    background: #2d2d2d;
+}
+
+/* === DATA CARD === */
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #222;
+    color: white;
+}
+
+table th,
+table td{
+    border: 1px solid #444;
+    padding: 12px;
+    text-align: center;
+}
+
+table th{
+    background: #b6895b;
+}
+
+/* === HAPUS MENU === */
+
+.btn-hapus{
+    background: #dc3545;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-hapus:hover{
+    background: #b02a37;
+} 
+
+/* === LOGIN PAGE === */
+
+.login-page{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
