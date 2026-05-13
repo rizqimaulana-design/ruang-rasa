@@ -28,7 +28,7 @@ $data = mysqli_query($conn,"SELECT * FROM menu");
         <th>Gambar</th>
         <th>Nama Menu</th>
         <th>Harga</th>
-        <th>Aksi</th>
+        <th></th>
     </tr>
 
         <?php $no = 1; ?>
@@ -50,17 +50,10 @@ $data = mysqli_query($conn,"SELECT * FROM menu");
             Rp <?= number_format($row['harga']); ?>
         </td>
 
-        <td>
-
-            <a
-            href="hapus_menu.php?id=<?= $row['id']; ?>"
-            class="btn-hapus"
-            onclick="return confirm('Yakin ingin menghapus menu ini?')">
-
-                Hapus
-
-            </a>
-
+       <td>
+            <a href="edit_menu.php?id=<?= $row['id']; ?>" class="btn-edit">Edit</a>
+            <a href="hapus_menu.php?id=<?= $row['id']; ?>" class="btn-hapus"
+            onclick="return confirm('Yakin hapus menu ini?')">Hapus</a>
         </td>
 
         </tr>

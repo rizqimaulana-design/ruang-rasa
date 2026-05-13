@@ -189,3 +189,21 @@ table th{
     align-items:center;
     min-height:100vh;
 }
+
+/* === EDIT === */
+.btn-edit {
+    padding: 5px 10px;
+    background: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.btn-hapus {
+    padding: 5px 10px;
+    background: #e74c3c;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
