@@ -15,14 +15,17 @@ if(!isset($_SESSION['admin'])){
 require_once '../koneksi.php';
 
 /* TOTAL MENU */
-$totalMenu = mysqli_num_rows(
-    mysqli_query($conn, "SELECT * FROM menu")
-);
+$stmtMenu = $conn->prepare("SELECT COUNT(*) AS total FROM menu");
+$stmtMenu->execute();
+$totalMenu = (int)($stmtMenu->get_result()->fetch_assoc()['total'] ?? 0);
+$stmtMenu->close();
 
 /* TOTAL KONTAK */
-$totalKontak = mysqli_num_rows(
-    mysqli_query($conn, "SELECT * FROM kontak")
-);
+$stmtKontak = $conn->prepare("SELECT COUNT(*) AS total FROM kontak");
+$stmtKontak->execute();
+$totalKontak = (int)($stmtKontak->get_result()->fetch_assoc()['total'] ?? 0);
+$stmtKontak->close();
+
 
 ?>
 
@@ -33,7 +36,7 @@ $totalKontak = mysqli_num_rows(
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -42,7 +45,7 @@ $totalKontak = mysqli_num_rows(
     <h1>RUANG RASA</h1>
 
     <p>Kelola menu, pelanggan, dan pengalaman terbaik untuk setiap secangkir kopi.
-        <b><?= $_SESSION['admin']; ?></b>
+        <b><?= htmlspecialchars($_SESSION['admin'] ?? '', ENT_QUOTES, 'UTF-8'); ?></b>
     </p>
 
     <div class="card-container">

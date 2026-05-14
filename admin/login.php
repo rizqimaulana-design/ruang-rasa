@@ -9,26 +9,25 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once '../koneksi.php';
 
-if(isset($_POST['login'])){
+if (isset($_POST['login'])) {
 
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username = trim($_POST['username'] ?? '');
+    $password = $_POST['password'] ?? '';
 
-    $query = mysqli_query($conn,
-    "SELECT * FROM admin WHERE username='$username'");
+    $stmt = $conn->prepare("SELECT username, password FROM admin WHERE username = ? LIMIT 1");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $admin = $result ? $result->fetch_assoc() : null;
+    $stmt->close();
 
-    $admin = mysqli_fetch_assoc($query);
-
-    if($admin && password_verify($password, $admin['password'])){
-
+    if ($admin && password_verify($password, $admin['password'])) {
         $_SESSION['admin'] = $admin['username'];
-
         header("Location:index.php");
         exit;
-
-    } else {
-        $error = "Login gagal!";
     }
+
+    $error = "Login gagal!";
 }
 ?>
 
@@ -46,7 +45,7 @@ if(isset($_POST['login'])){
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="login-page">
 
@@ -55,7 +54,7 @@ if(isset($_POST['login'])){
     <h2>Login Admin</h2>
 
     <?php if(isset($error)) : ?>
-        <p class="error"><?= $error; ?></p>
+        <p class="error"><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8'); ?></p>
     <?php endif; ?>
 
     <form method="POST">

@@ -8,17 +8,18 @@ require_once '../koneksi.php';
 
 if(isset($_POST['submit'])){
 
-    $nama = $_POST['nama_menu'];
-    $harga = $_POST['harga'];
+    $nama = trim($_POST['nama_menu'] ?? '');
+    $harga = $_POST['harga'] ?? null;
 
-    $gambar = $_FILES['gambar']['name'];
+$gambar = $_FILES['gambar']['name'];
     $tmp = $_FILES['gambar']['tmp_name'];
 
     move_uploaded_file($tmp, "../img/" . $gambar);
 
-    mysqli_query($conn,
-    "INSERT INTO menu(nama_menu,harga,gambar)
-    VALUES('$nama','$harga','$gambar')");
+    $stmt = $conn->prepare("INSERT INTO menu (nama_menu, harga, gambar) VALUES (?, ?, ?)");
+    $stmt->bind_param("sds", $nama, $harga, $gambar);
+    $stmt->execute();
+    $stmt->close();
 
     header("Location:index.php");
     exit;
@@ -31,7 +32,7 @@ if(isset($_POST['submit'])){
     <meta charset="UTF-8">
     <title>Tambah Menu</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="login-page">
 

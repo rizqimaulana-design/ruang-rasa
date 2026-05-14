@@ -3,7 +3,10 @@
 session_start();
 require_once '../koneksi.php';
 
-$data = mysqli_query($conn,"SELECT * FROM menu");
+$stmt = $conn->prepare("SELECT id, nama_menu, harga, gambar FROM menu ORDER BY id DESC");
+$stmt->execute();
+$data = $stmt->get_result();
+
 
 ?>
 
@@ -13,7 +16,7 @@ $data = mysqli_query($conn,"SELECT * FROM menu");
     <meta charset="UTF-8">
     <title>Data Menu</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="login-page">
 
@@ -40,19 +43,19 @@ $data = mysqli_query($conn,"SELECT * FROM menu");
 
             <td>
                 <img
-                src="../img/<?= $row['gambar']; ?>"
+                src="../img/<?= htmlspecialchars($row['gambar'], ENT_QUOTES, 'UTF-8'); ?>"
                 width="80">
             </td>
 
-            <td><?= $row['nama_menu']; ?></td>
+            <td><?= htmlspecialchars($row['nama_menu'], ENT_QUOTES, 'UTF-8'); ?></td>
 
         <td>
-            Rp <?= number_format($row['harga']); ?>
+            Rp <?= number_format((float)$row['harga']); ?>
         </td>
 
        <td>
-            <a href="edit_menu.php?id=<?= $row['id']; ?>" class="btn-edit">Edit</a>
-            <a href="hapus_menu.php?id=<?= $row['id']; ?>" class="btn-hapus"
+            <a href="edit_menu.php?id=<?= (int)$row['id']; ?>" class="btn-edit">Edit</a>
+            <a href="hapus_menu.php?id=<?= (int)$row['id']; ?>" class="btn-hapus"
             onclick="return confirm('Yakin hapus menu ini?')">Hapus</a>
         </td>
 

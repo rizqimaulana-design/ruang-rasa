@@ -3,11 +3,15 @@ session_start();
 require_once '../koneksi.php';
 
 // ambil id dari URL
-$id = $_GET['id'];
+$id = (int)($_GET['id'] ?? 0);
 
 // ambil data menu berdasarkan id
-$query = mysqli_query($conn, "SELECT * FROM menu WHERE id='$id'");
-$data = mysqli_fetch_assoc($query);
+$stmt = $conn->prepare("SELECT * FROM menu WHERE id = ? LIMIT 1");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$data = $stmt->get_result()->fetch_assoc();
+$stmt->close();
+
 
 // update data saat form disubmit
 if(isset($_POST['update'])) {
@@ -15,25 +19,23 @@ if(isset($_POST['update'])) {
     $harga = $_POST['harga'];
 
     // cek kalau gambar diubah
-    if($_FILES['gambar']['name'] != "") {
+    if(isset($_FILES['gambar']['name']) && $_FILES['gambar']['name'] != "") {
         $gambar = $_FILES['gambar']['name'];
         $tmp = $_FILES['gambar']['tmp_name'];
 
         move_uploaded_file($tmp, "../img/" . $gambar);
 
-        mysqli_query($conn, "UPDATE menu SET 
-            nama_menu='$nama',
-            harga='$harga',
-            gambar='$gambar'
-            WHERE id='$id'
-        ");
+        $stmt = $conn->prepare("UPDATE menu SET nama_menu = ?, harga = ?, gambar = ? WHERE id = ?");
+        $stmt->bind_param("sdsi", $nama, $harga, $gambar, $id);
+        $stmt->execute();
+        $stmt->close();
     } else {
-        mysqli_query($conn, "UPDATE menu SET 
-            nama_menu='$nama',
-            harga='$harga'
-            WHERE id='$id'
-        ");
+        $stmt = $conn->prepare("UPDATE menu SET nama_menu = ?, harga = ? WHERE id = ?");
+        $stmt->bind_param("sdi", $nama, $harga, $id);
+        $stmt->execute();
+        $stmt->close();
     }
+
 
     header("Location: data_menu.php");
     exit;
@@ -53,15 +55,15 @@ if(isset($_POST['update'])) {
 <form method="POST" enctype="multipart/form-data">
 
     <label>Nama Menu</label><br>
-    <input type="text" name="nama_menu" value="<?= $data['nama_menu']; ?>" required><br><br>
+    <input type="text" name="nama_menu" value="<?= htmlspecialchars($data['nama_menu'], ENT_QUOTES, 'UTF-8'); ?>" required><br><br>
 
     <label>Harga</label><br>
-    <input type="text" name="harga" value="<?= $data['harga']; ?>" required><br><br>
+    <input type="text" name="harga" value="<?= htmlspecialchars($data['harga'], ENT_QUOTES, 'UTF-8'); ?>" required><br><br>
 
     <label>Gambar (biarkan jika tidak diubah)</label><br>
     <input type="file" name="gambar"><br><br>
 
-    <img src="../img/<?= $data['gambar']; ?>" width="120"><br><br>
+    <img src="../img/<?= htmlspecialchars($data['gambar'], ENT_QUOTES, 'UTF-8'); ?>" width="120"><br><br>
 
    <button type="submit" name="update" style="
     padding: 8px 15px;

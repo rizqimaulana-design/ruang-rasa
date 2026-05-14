@@ -2,7 +2,10 @@
 session_start();
 require_once '../koneksi.php';
 
-$data = mysqli_query($conn,"SELECT * FROM kontak");
+$stmt = $conn->prepare("SELECT id, nama, email, no_hp, pesan FROM kontak ORDER BY id DESC");
+$stmt->execute();
+$data = $stmt->get_result();
+
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +14,7 @@ $data = mysqli_query($conn,"SELECT * FROM kontak");
     <meta charset="UTF-8">
     <title>Data Kontak</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -35,13 +38,13 @@ $data = mysqli_query($conn,"SELECT * FROM kontak");
 
         <tr>
             <td><?= $no++; ?></td>
-            <td><?= $row['nama']; ?></td>
-            <td><?= $row['email']; ?></td>
-            <td><?= $row['no_hp']; ?></td>
-            <td><?= $row['pesan']; ?></td>
+            <td><?= htmlspecialchars($row['nama'], ENT_QUOTES, 'UTF-8'); ?></td>
+            <td><?= htmlspecialchars($row['email'], ENT_QUOTES, 'UTF-8'); ?></td>
+            <td><?= htmlspecialchars($row['no_hp'], ENT_QUOTES, 'UTF-8'); ?></td>
+            <td><?= nl2br(htmlspecialchars($row['pesan'], ENT_QUOTES, 'UTF-8')); ?></td>
 
             <td>
-                <a href="hapus_kontak.php?id=<?= $row['id']; ?>" 
+                <a href="hapus_kontak.php?id=<?= (int)$row['id']; ?>" 
                    onclick="return confirm('Yakin ingin menghapus pesan ini?')"
                    style="
                     padding: 6px 10px;

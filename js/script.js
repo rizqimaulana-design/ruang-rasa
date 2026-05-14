@@ -155,10 +155,12 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
         }
 
         // update total
-        total += price;
+        // Catatan: total sudah diupdate pada handler plus/minus atau remove.
+        // Untuk item baru, tambah quantity awalnya sudah dihitung di blok else.
         updateTotal();
     });
 });
+
 
 // update total harga
 function updateTotal() {
