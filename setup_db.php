@@ -22,7 +22,7 @@ if (!mysqli_query($conn, $query_db)) {
 // Pilih database
 mysqli_select_db($conn, $db);
 
-// ========== TABEL MENU ==========
+// ========== TABEL MENU ============
 $query_menu = "CREATE TABLE IF NOT EXISTS menu (
     id INT(11) AUTO_INCREMENT PRIMARY KEY,
     nama_menu VARCHAR(255) NOT NULL,
@@ -38,7 +38,7 @@ if (!mysqli_query($conn, $query_menu)) {
 $cek_menu = mysqli_query($conn, "SELECT COUNT(*) as jumlah FROM menu");
 $row_menu = mysqli_fetch_assoc($cek_menu);
 
-if ($row_menu['jumlah'] == 0) {
+if ((int)$row_menu['jumlah'] === 0) {
     // Insert data menu contoh
     $menu_items = [
         ["Espresso", 15000, "m1.png"],
@@ -57,10 +57,11 @@ if ($row_menu['jumlah'] == 0) {
         $stmt->execute();
         $stmt->close();
     }
+
     echo "Data menu berhasil ditambahkan!<br>";
 }
 
-// ========== TABEL KONTAK ==========
+// ========== TABEL KONTAK ============
 $query_kontak = "CREATE TABLE IF NOT EXISTS kontak (
     id INT(11) AUTO_INCREMENT PRIMARY KEY,
     nama VARCHAR(100) NOT NULL,
@@ -74,8 +75,36 @@ if (!mysqli_query($conn, $query_kontak)) {
     die("Gagal membuat tabel kontak: " . mysqli_error($conn));
 }
 
+// ========== TABEL CHECKOUT ============
+$query_checkout = "CREATE TABLE IF NOT EXISTS checkout (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    total DECIMAL(12,2) NOT NULL,
+    tanggal DATETIME NOT NULL
+)";
+
+if (!mysqli_query($conn, $query_checkout)) {
+    die("Gagal membuat tabel checkout: " . mysqli_error($conn));
+}
+
+// ========== TABEL CHECKOUT_DETAIL ============
+$query_checkout_detail = "CREATE TABLE IF NOT EXISTS checkout_detail (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    checkout_id INT(11) NOT NULL,
+    nama_menu VARCHAR(255) NOT NULL,
+    qty INT(11) NOT NULL,
+    harga DECIMAL(10,2) NOT NULL,
+    subtotal DECIMAL(12,2) NOT NULL,
+    CONSTRAINT fk_checkout_detail_checkout FOREIGN KEY (checkout_id) REFERENCES checkout(id) ON DELETE CASCADE
+)";
+
+if (!mysqli_query($conn, $query_checkout_detail)) {
+    die("Gagal membuat tabel checkout_detail: " . mysqli_error($conn));
+}
+
 echo "✅ Database dan tabel berhasil disetup!<br>";
-echo "📋 Tabel yang tersedia: menu, kontak";
+echo "📋 Tabel yang tersedia: menu, kontak, checkout, checkout_detail";
 
 mysqli_close($conn);
 ?>
+

@@ -247,10 +247,16 @@ if (isset($_POST['kirim'])) {
 
         <div class="cart-total">
             <p>Total: <span id="total-price">IDR 0</span></p>
+
+            <div class="checkout-form">
+                <input id="checkout-nama" type="text" name="nama" placeholder="Nama untuk checkout" required>
+            </div>
+
             <button id="checkout-btn">Checkout</button>
         </div>
     </div>
-    <!-- Shopping Cart End-->
+    <!-- Shopping Cart End -->
+
 
 
     <!-- Feather Icons -->

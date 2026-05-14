@@ -65,10 +65,29 @@ $stmtKontak->close();
         </a>
     </div>
 
+    <div class="card-container">
+        <a href="data_checkout.php" class="card-link">
+            <div class="card">
+                <h2>Data Checkout</h2>
+                <?php
+                    $stmtCheckout = $conn->prepare("SELECT COUNT(*) AS total FROM checkout");
+                    $stmtCheckout->execute();
+                    $totalCheckout = (int)($stmtCheckout->get_result()->fetch_assoc()['total'] ?? 0);
+                    $stmtCheckout->close();
+                ?>
+                <p><?= $totalCheckout; ?></p>
+            </div>
+        </a>
+    </div>
+
     <div class="menu-admin">
 
         <a href="tambah_menu.php">
             Tambah Menu
+        </a>
+
+        <a href="data_checkout.php">
+            Lihat Checkout
         </a>
 
         <a href="logout.php">

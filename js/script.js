@@ -9,8 +9,8 @@ document.querySelector('#hamburger-menu').onclick = () => {
 // Klik di luar sidebar
 const hamburger = document.querySelector('#hamburger-menu');
 
-document.addEventListener('click', function(e) {
-    if(!hamburger.contains(e.target) && !navbarNav.contains(e.target)){
+document.addEventListener('click', function (e) {
+    if (!hamburger.contains(e.target) && !navbarNav.contains(e.target)) {
         navbarNav.classList.remove('active');
     }
 });
@@ -35,7 +35,7 @@ function showSection(targetId) {
 }
 
 allLinks.forEach(link => {
-    link.addEventListener('click', function(e) {
+    link.addEventListener('click', function (e) {
         e.preventDefault();
         const targetId = this.getAttribute('href').substring(1);
         showSection(targetId);
@@ -69,7 +69,7 @@ cartClose.onclick = () => {
 };
 
 // tutup cart saat klik di luar
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     if (!cartBtn.contains(e.target) && !cart.contains(e.target)) {
         cart.classList.remove('active');
     }
@@ -77,7 +77,7 @@ document.addEventListener('click', function(e) {
 
 // tutup cart saat navigasi link diklik
 allLinks.forEach(link => {
-    link.addEventListener('click', function() {
+    link.addEventListener('click', function () {
         cart.classList.remove('active');
     });
 });
@@ -87,7 +87,7 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
     button.addEventListener('click', function () {
         const card = this.parentElement;
         const name = card.dataset.name;
-        const price = parseInt(card.dataset.price);
+        const price = parseInt(card.dataset.price, 10);
 
         // cek apakah item sudah ada di cart
         const existingItem = Array.from(cartItems.children).find(li => li.dataset.name === name);
@@ -95,7 +95,7 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
         if (existingItem) {
             // tambah quantity
             const qtySpan = existingItem.querySelector('.item-qty');
-            let qty = parseInt(qtySpan.innerText);
+            let qty = parseInt(qtySpan.innerText, 10);
             qty++;
             qtySpan.innerText = qty;
 
@@ -124,7 +124,7 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
             // tombol tambah quantity
             li.querySelector('.plus').onclick = () => {
                 const qtySpan = li.querySelector('.item-qty');
-                let qty = parseInt(qtySpan.innerText);
+                let qty = parseInt(qtySpan.innerText, 10);
                 qty++;
                 qtySpan.innerText = qty;
                 li.querySelector('.item-subtotal').innerText = 'IDR ' + (price * qty).toLocaleString();
@@ -135,7 +135,7 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
             // tombol kurang quantity
             li.querySelector('.minus').onclick = () => {
                 const qtySpan = li.querySelector('.item-qty');
-                let qty = parseInt(qtySpan.innerText);
+                let qty = parseInt(qtySpan.innerText, 10);
                 if (qty > 1) {
                     qty--;
                     qtySpan.innerText = qty;
@@ -147,20 +147,18 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
 
             // hapus item
             li.querySelector('.remove-btn').onclick = () => {
-                const qty = parseInt(li.querySelector('.item-qty').innerText);
+                const qty = parseInt(li.querySelector('.item-qty').innerText, 10);
                 total -= price * qty;
                 li.remove();
                 updateTotal();
             };
-        }
 
-        // update total
-        // Catatan: total sudah diupdate pada handler plus/minus atau remove.
-        // Untuk item baru, tambah quantity awalnya sudah dihitung di blok else.
-        updateTotal();
+            // quantity awal di item baru (1)
+            total += price;
+            updateTotal();
+        }
     });
 });
-
 
 // update total harga
 function updateTotal() {
@@ -168,14 +166,58 @@ function updateTotal() {
 }
 
 // checkout
-checkoutBtn.onclick = () => {
-    if (total === 0) {
-        alert('Keranjang masih kosong!');
-    } else {
-        alert('Checkout berhasil!\nTotal: IDR ' + total.toLocaleString());
-        cartItems.innerHTML = '';
-        total = 0;
-        updateTotal();
-    }
-};
+if (checkoutBtn) {
+    checkoutBtn.onclick = async () => {
+        if (total === 0) {
+            alert('Keranjang masih kosong!');
+            return;
+        }
+
+        const namaInput = document.getElementById('checkout-nama');
+        const nama = (namaInput?.value || '').trim();
+
+        if (!nama) {
+            alert('Nama untuk checkout wajib diisi!');
+            namaInput?.focus();
+            return;
+        }
+
+        const items = Array.from(cartItems.children).map(li => {
+            const nama_menu = li.dataset.name;
+            const qty = parseInt(li.querySelector('.item-qty').innerText, 10);
+            const hargaText = li.querySelector('.item-price').innerText;
+            const harga = parseInt(hargaText.replace('IDR', '').replace(/[^0-9]/g, ''), 10);
+            const subtotalText = li.querySelector('.item-subtotal').innerText;
+            const subtotal = parseInt(subtotalText.replace('IDR', '').replace(/[^0-9]/g, ''), 10);
+
+            return { nama_menu, qty, harga, subtotal };
+        });
+
+        try {
+            const res = await fetch('/ruang-rasa/checkout_process.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nama, total, items })
+            });
+
+            const result = await res.json();
+
+            if (!result.success) {
+                throw new Error(result.message || 'Checkout gagal');
+            }
+
+            alert('Checkout berhasil!\nCheckout ID: ' + result.checkout_id);
+
+            cartItems.innerHTML = '';
+            total = 0;
+            updateTotal();
+
+            if (namaInput) namaInput.value = '';
+
+
+        } catch (err) {
+            alert('Checkout gagal: ' + err.message);
+        }
+    };
+}
 
