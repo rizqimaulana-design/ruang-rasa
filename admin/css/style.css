@@ -1,51 +1,50 @@
 body{
-    font-family:Poppins;
-    background:#111;
-    margin:0;
-    padding:0;
-    min-height:100vh;
+    font-family: Poppins, sans-serif;
+    background: #111;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
 }
 
 .login-box{
-    background:#222;
-    padding:30px;
-    border-radius:15px;
-    width:350px;
+    background: #222;
+    padding: 30px;
+    border-radius: 15px;
+    width: 350px;
 }
 
 h2{
-    color:white;
-    text-align:center;
+    color: white;
+    text-align: center;
 }
 
-iinput{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    border:none;
-    border-radius:8px;
-
-    font-size:18px;
-    font-weight:500;
+input{
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 500;
+    box-sizing: border-box;
 }
 
 button{
-    width:100%;
-    padding:12px;
-    margin-top:15px;
-    border:none;
-    border-radius:8px;
-    background:#b6895b;
-    color:white;
-    cursor:pointer;
-
-    font-size:18px;
-    font-weight:600;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    background: #b6895b;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: Poppins, sans-serif;
 }
 
 .error{
-    color:red;
-    text-align:center;
+    color: red;
+    text-align: center;
 }
 
 /* === INDEX === */
@@ -98,21 +97,25 @@ button{
     margin-right: 10px;
 }
 
-/* === TANDA KEMBALI MENU === */
+/* === BUTTON GROUP === */
 
 .button-group{
     display: flex;
     gap: 10px;
-    margin-top: 15px;
+    margin-top: 20px;
+    align-items: stretch;
 }
 
 .button-group button{
     flex: 1;
+    width: auto;
+    margin-top: 0;
 }
+
 .btn-kembali{
     flex: 1;
     padding: 12px;
-    margin-top: 15px;
+    margin-top: 0;
     background: #444;
     color: white;
     text-decoration: none;
@@ -121,14 +124,17 @@ button{
     align-items: center;
     border-radius: 8px;
     transition: 0.3s;
-    height: 45px;
+    box-sizing: border-box;
+    font-size: 15px;
+    font-weight: 600;
 }
 
 .btn-kembali:hover{
-    background: #b6895b;
+    background: #555;
+    color: white;
 }
 
-/* === CARD === */
+/* === CARD LINK === */
 
 .card-link{
     text-decoration: none;
@@ -145,7 +151,7 @@ button{
     background: #2d2d2d;
 }
 
-/* === DATA CARD === */
+/* === TABLE === */
 
 table{
     width: 100%;
@@ -169,28 +175,30 @@ table th{
 /* === HAPUS MENU === */
 
 .btn-hapus{
-    background: #dc3545;
+    padding: 5px 10px;
+    background: #e74c3c;
     color: white;
-    padding: 8px 14px;
-    border-radius: 8px;
     text-decoration: none;
+    border-radius: 5px;
     transition: 0.3s;
+    display: inline-block;
 }
 
 .btn-hapus:hover{
     background: #b02a37;
-} 
+}
 
 /* === LOGIN PAGE === */
 
 .login-page{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
 /* === EDIT === */
+
 .btn-edit {
     padding: 5px 10px;
     background: #3498db;
@@ -198,12 +206,28 @@ table th{
     text-decoration: none;
     border-radius: 5px;
     margin-right: 5px;
+    display: inline-block;
 }
 
-.btn-hapus {
-    padding: 5px 10px;
-    background: #e74c3c;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
+/* === OVERRIDE INPUT DI FORM === */
+.login-box .form-group input[type="text"],
+.login-box .form-group input[type="number"] {
+    background: #1e1e1e !important;
+    color: white !important;
+    border: 1px solid #444 !important;
+    margin-top: 0 !important;
+}
+
+/* === LABEL FORM === */
+.form-group label {
+    color: white !important;
+}
+
+/* === SEMUA TULISAN DI FORM === */
+.login-box,
+.login-box label,
+.login-box span,
+.login-box p,
+.login-box h2 {
+    color: white !important;
 }

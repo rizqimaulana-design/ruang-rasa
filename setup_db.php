@@ -5,22 +5,33 @@ $host = "localhost";
 $user = "root";
 $pass = "";
 $db   = "ruang_rasa";
+$port = 3306; // Default Laragon, ganti 3307 jika tidak bisa konek
 
 // Koneksi ke MySQL tanpa memilih database dulu
-$conn = mysqli_connect($host, $user, $pass);
+$conn = mysqli_connect($host, $user, $pass, "", $port);
 
 if (!$conn) {
-    die("Koneksi gagal: " . mysqli_connect_error());
+    $error_code = mysqli_connect_errno();
+    $error_msg  = mysqli_connect_error();
+    die("❌ Koneksi gagal! (Code: $error_code) $error_msg <br><br>
+        Pastikan:<br>
+        1. MySQL Laragon sudah <b>Running</b><br>
+        2. Port sesuai (coba ganti ke <b>3307</b> jika gagal)<br>
+        3. Username & password benar
+    ");
 }
 
 // Buat database jika belum ada
-$query_db = "CREATE DATABASE IF NOT EXISTS $db";
+$query_db = "CREATE DATABASE IF NOT EXISTS $db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
 if (!mysqli_query($conn, $query_db)) {
-    die("Gagal membuat database: " . mysqli_error($conn));
+    die("❌ Gagal membuat database: " . mysqli_error($conn));
 }
 
 // Pilih database
 mysqli_select_db($conn, $db);
+
+// Set charset ke utf8mb4 (penting untuk Laragon)
+mysqli_set_charset($conn, "utf8mb4");
 
 // ========== TABEL MENU ============
 $query_menu = "CREATE TABLE IF NOT EXISTS menu (
@@ -28,10 +39,10 @@ $query_menu = "CREATE TABLE IF NOT EXISTS menu (
     nama_menu VARCHAR(255) NOT NULL,
     harga DECIMAL(10,2) NOT NULL,
     gambar VARCHAR(255) NOT NULL
-)";
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
 
 if (!mysqli_query($conn, $query_menu)) {
-    die("Gagal membuat tabel menu: " . mysqli_error($conn));
+    die("❌ Gagal membuat tabel menu: " . mysqli_error($conn));
 }
 
 // Cek apakah menu sudah ada data
@@ -58,7 +69,9 @@ if ((int)$row_menu['jumlah'] === 0) {
         $stmt->close();
     }
 
-    echo "Data menu berhasil ditambahkan!<br>";
+    echo "✅ Data menu berhasil ditambahkan!<br>";
+} else {
+    echo "ℹ️ Data menu sudah ada, skip insert.<br>";
 }
 
 // ========== TABEL KONTAK ============
@@ -69,10 +82,10 @@ $query_kontak = "CREATE TABLE IF NOT EXISTS kontak (
     no_hp VARCHAR(20) NOT NULL,
     pesan TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)";
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
 
 if (!mysqli_query($conn, $query_kontak)) {
-    die("Gagal membuat tabel kontak: " . mysqli_error($conn));
+    die("❌ Gagal membuat tabel kontak: " . mysqli_error($conn));
 }
 
 // ========== TABEL CHECKOUT ============
@@ -81,10 +94,10 @@ $query_checkout = "CREATE TABLE IF NOT EXISTS checkout (
     nama VARCHAR(100) NOT NULL,
     total DECIMAL(12,2) NOT NULL,
     tanggal DATETIME NOT NULL
-)";
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
 
 if (!mysqli_query($conn, $query_checkout)) {
-    die("Gagal membuat tabel checkout: " . mysqli_error($conn));
+    die("❌ Gagal membuat tabel checkout: " . mysqli_error($conn));
 }
 
 // ========== TABEL CHECKOUT_DETAIL ============
@@ -96,15 +109,15 @@ $query_checkout_detail = "CREATE TABLE IF NOT EXISTS checkout_detail (
     harga DECIMAL(10,2) NOT NULL,
     subtotal DECIMAL(12,2) NOT NULL,
     CONSTRAINT fk_checkout_detail_checkout FOREIGN KEY (checkout_id) REFERENCES checkout(id) ON DELETE CASCADE
-)";
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
 
 if (!mysqli_query($conn, $query_checkout_detail)) {
-    die("Gagal membuat tabel checkout_detail: " . mysqli_error($conn));
+    die("❌ Gagal membuat tabel checkout_detail: " . mysqli_error($conn));
 }
 
 echo "✅ Database dan tabel berhasil disetup!<br>";
-echo "📋 Tabel yang tersedia: menu, kontak, checkout, checkout_detail";
+echo "📋 Tabel yang tersedia: menu, kontak, checkout, checkout_detail<br>";
+echo "🔌 Menggunakan port: $port";
 
 mysqli_close($conn);
 ?>
-

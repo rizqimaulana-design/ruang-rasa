@@ -1,0 +1,102 @@
+/* === MODAL OVERLAY === */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+/* === MODAL BOX === */
+.modal-box {
+    background: #222;
+    border-radius: 15px;
+    padding: 28px 24px;
+    width: 320px;
+    border: 1px solid #444;
+}
+
+.modal-box h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    color: white;
+    font-family: Poppins;
+}
+
+.modal-box p {
+    margin: 0 0 24px;
+    font-size: 14px;
+    color: #aaa;
+    font-family: Poppins;
+}
+
+/* === MODAL ACTIONS === */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-batal {
+    padding: 8px 18px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background: transparent;
+    cursor: pointer;
+    color: white;
+    font-family: Poppins;
+    transition: 0.3s;
+}
+
+.btn-batal:hover {
+    background: #444;
+}
+
+/* === TOMBOL HAPUS DI MODAL === */
+.modal-actions .btn-hapus {
+    padding: 8px 18px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: none;
+    background: #dc3545;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: Poppins;
+    transition: 0.3s;
+}
+
+.modal-actions .btn-hapus:hover {
+    background: #b02a37;
+}
+
+/* === TOMBOL TRIGGER DI TABEL === */
+/* === TOMBOL TRIGGER DI TABEL === */
+.btn-hapus-trigger {
+    padding: 6px 10px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: Poppins;
+    transition: 0.3s;
+    width: auto;
+    display: inline;
+}
+
+.btn-hapus-trigger:hover {
+    background: #b02a37;
+}
+.btn-hapus-trigger:hover {
+    background: #b02a37;
+}

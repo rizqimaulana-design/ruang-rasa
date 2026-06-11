@@ -3,15 +3,16 @@ $host = "localhost";
 $user = "root";
 $pass = "";
 $db   = "ruang_rasa";
+$port = 3306; // Default Laragon, ganti 3307 jika tidak bisa konek
 
-$conn = mysqli_connect($host, $user, $pass, $db);
+$conn = mysqli_connect($host, $user, $pass, $db, $port);
 
 // === CEK KONEKSI DATABASE ===
 function cekKoneksiDB($conn) {
     if (!$conn) {
         return [
             'status' => false,
-            'message' => 'Koneksi ke database gagal!'
+            'message' => 'Koneksi ke database gagal! Error: ' . mysqli_connect_error()
         ];
     }
     
@@ -64,7 +65,9 @@ function cekKoneksiDB($conn) {
 
 // Cek koneksi saat file dipanggil
 if (!$conn) {
-    echo "<script>alert('Koneksi ke database gagal! Periksa koneksi MySQL.');</script>";
+    $error_msg = mysqli_connect_error();
+    $error_code = mysqli_connect_errno();
+    echo "<script>alert('Koneksi ke database gagal!\\nError: $error_msg (Code: $error_code)\\n\\nPastikan:\\n1. MySQL Laragon sudah Running\\n2. Port sesuai (3306 atau 3307)\\n3. Database ruang_rasa sudah dibuat');</script>";
 } else {
     // Jalankan cek otomatis
     $hasil_cek = cekKoneksiDB($conn);

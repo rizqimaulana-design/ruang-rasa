@@ -19,8 +19,9 @@ $stmt->close();
     <meta charset="UTF-8">
     <title>Data Checkout</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/modal.css">
 </head>
-<body class="login-page">
+<body>
 
 <div class="dashboard">
     <h1>Data Checkout</h1>
@@ -40,20 +41,36 @@ $stmt->close();
                 <td><?= htmlspecialchars($row['tanggal'], ENT_QUOTES, 'UTF-8'); ?></td>
                 <td><?= htmlspecialchars($row['nama'], ENT_QUOTES, 'UTF-8'); ?></td>
                 <td>Rp <?= number_format((float)$row['total']); ?></td>
-                <td>
+                <td style="white-space: nowrap;">
                     <a href="checkout_detail.php?id=<?= (int)$row['id']; ?>" class="btn-edit">Detail</a>
                     <a href="edit_checkout.php?id=<?= (int)$row['id']; ?>" class="btn-edit">Edit</a>
-                    <a href="hapus_checkout.php?id=<?= (int)$row['id']; ?>" class="btn-hapus" onclick="return confirm('Hapus checkout ini beserta detailnya?')">Hapus</a>
+                    <button 
+                        onclick="bukaModal('hapus_checkout.php?id=<?= (int)$row['id']; ?>')"
+                        class="btn-hapus-trigger">
+                        Hapus
+                    </button>
                 </td>
             </tr>
         <?php endwhile; ?>
     </table>
 
     <br>
-
     <a href="index.php" class="btn-kembali">Kembali</a>
 </div>
 
+<!-- MODAL KONFIRMASI HAPUS -->
+<div class="modal-overlay" id="modalHapus">
+    <div class="modal-box">
+        <h3>🗑️ Hapus Checkout</h3>
+        <p>Hapus checkout ini beserta semua detailnya? Tindakan ini tidak bisa dibatalkan.</p>
+        <div class="modal-actions">
+            <button class="btn-batal" onclick="tutupModal()">Batal</button>
+            <a id="btn-konfirmasi-hapus" href="#" class="btn-hapus">Hapus</a>
+        </div>
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+
 </body>
 </html>
-
