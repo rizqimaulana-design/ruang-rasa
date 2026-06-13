@@ -55,12 +55,14 @@ if (isset($_POST['kirim'])) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
-   
     <!-- Feather Icons -->
-      <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
 
-       <!-- My Style -->
+    <!-- My Style -->
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- Menu Kategori Style -->
+    <link rel="stylesheet" href="css/menu-kategori.css">
 </head>
 <body>
 
@@ -71,8 +73,8 @@ if (isset($_POST['kirim'])) {
     }
     ?>
 
-    <!-- Navbar Starts-->
-     <nav class="navbar">
+    <!-- Navbar Starts -->
+    <nav class="navbar">
         <a href="#" class="navbar-logo">Ruang<span>Rasa</span>.</a>
 
         <div class="navbar-nav">
@@ -87,22 +89,21 @@ if (isset($_POST['kirim'])) {
             <a href="#" id="shopping-cart"><i data-feather="shopping-cart"></i></a>
             <a href="#" id="hamburger-menu"><i data-feather="menu"></i></a>
         </div>
-     </nav>
+    </nav>
+    <!-- Navbar End -->
 
-    <!-- Navbar End-->
-
-    <!-- Hero Section start -->
-     <section class="hero page-section active" id="home">
+    <!-- Hero Section Start -->
+    <section class="hero page-section active" id="home">
         <main class="content">
             <h1>Mari Nikmati Secangkir <span>Kopi</span></h1>
             <p>Dengan aroma khas dan rasa beragam yang menghadirkan kehangatan di setiap momen. Kami menyajikan kopi berkualitas untuk pengalaman terbaik Anda.</p>
             <a href="#" class="cta">Beli Sekarang</a>
         </main>
-     </section>
-      <!-- Hero Section End -->
+    </section>
+    <!-- Hero Section End -->
 
     <!-- About Section Start -->
-     <section id="about" class="about page-section">
+    <section id="about" class="about page-section">
         <h2><span>Tentang</span> Kami</h2>
 
         <div class="row">
@@ -117,62 +118,114 @@ if (isset($_POST['kirim'])) {
                     Di sini, momen sederhana terasa lebih istimewa.</p>
             </div>      
         </div>
-     </section>
-
+    </section>
     <!-- About Section End -->
 
     <!-- Menu Section Start -->
-     <section id="menu" class="menu page-section">
+    <section id="menu" class="menu page-section">
         <h2><span>Menu</span> Kami</h2>
         <p>Temukan berbagai pilihan rasa yang dibuat untuk menghadirkan kenyamanan di setiap tegukan</p>
 
-       <div class="row">
-
-    <?php
-    $query = mysqli_query($conn, "SELECT * FROM menu");
-
-    if (!$query) {
-        die("Query Error: " . mysqli_error($conn));
-    }
-
-    if (mysqli_num_rows($query) > 0) {
-        while($row = mysqli_fetch_assoc($query)) {
-    ?>
-
-        <div class="menu-card"
-            data-name="<?= htmlspecialchars($row['nama_menu']); ?>"
-            data-price="<?= $row['harga']; ?>">
-
-            <img src="img/<?= htmlspecialchars($row['gambar']); ?>"
-                 onerror="this.src='img/default.jpg'"
-                 class="menu-card-img">
-
-            <h3 class="menu-card-title">
-                <?= htmlspecialchars($row['nama_menu']); ?>
-            </h3>
-
-            <p class="menu-card-price">
-                IDR <?= number_format($row['harga'], 0, ',', '.'); ?>
-            </p>
-
-            <button class="add-to-cart">Tambah</button>
+        <!-- Tab Filter Kategori -->
+        <div class="menu-tabs">
+            <button class="menu-tab active" data-filter="all">Semua</button>
+            <button class="menu-tab" data-filter="makanan">
+                <i data-feather="box"></i> Makanan
+            </button>
+            <button class="menu-tab" data-filter="minuman">
+                <i data-feather="coffee"></i> Minuman
+            </button>
         </div>
 
-    <?php
-        }
-    } else {
-        echo "<p style='text-align:center'>Menu belum tersedia</p>";
-    }
-    ?>
+        <!-- Section Makanan -->
+        <div class="menu-section" id="section-makanan">
+            <div class="menu-section-label">
+                <i data-feather="box"></i>
+                <span>Makanan</span>
+            </div>
+            <div class="row menu-grid" id="grid-makanan">
+                <?php
+                $query_makanan = mysqli_query($conn, "SELECT * FROM menu WHERE kategori = 'makanan'");
+                if ($query_makanan && mysqli_num_rows($query_makanan) > 0) {
+                    while ($row = mysqli_fetch_assoc($query_makanan)) {
+                ?>
+                    <div class="menu-card" data-kategori="makanan"
+                        data-name="<?= htmlspecialchars($row['nama_menu']); ?>"
+                        data-price="<?= $row['harga']; ?>">
 
+                        <span class="menu-badge badge-makanan">Makanan</span>
 
-</div>
-     </section>
+                        <img src="img/<?= htmlspecialchars($row['gambar']); ?>"
+                             onerror="this.src='img/default.jpg'"
+                             class="menu-card-img"
+                             alt="<?= htmlspecialchars($row['nama_menu']); ?>">
+
+                        <h3 class="menu-card-title">
+                            <?= htmlspecialchars($row['nama_menu']); ?>
+                        </h3>
+
+                        <p class="menu-card-price">
+                            IDR <?= number_format($row['harga'], 0, ',', '.'); ?>
+                        </p>
+
+                        <button class="add-to-cart">+ Tambah</button>
+                    </div>
+                <?php
+                    }
+                } else {
+                    echo '<p class="menu-empty">Menu makanan belum tersedia.</p>';
+                }
+                ?>
+            </div>
+        </div>
+
+        <!-- Section Minuman -->
+        <div class="menu-section" id="section-minuman">
+            <div class="menu-section-label">
+                <i data-feather="coffee"></i>
+                <span>Minuman</span>
+            </div>
+            <div class="row menu-grid" id="grid-minuman">
+                <?php
+                $query_minuman = mysqli_query($conn, "SELECT * FROM menu WHERE kategori = 'minuman'");
+                if ($query_minuman && mysqli_num_rows($query_minuman) > 0) {
+                    while ($row = mysqli_fetch_assoc($query_minuman)) {
+                ?>
+                    <div class="menu-card" data-kategori="minuman"
+                        data-name="<?= htmlspecialchars($row['nama_menu']); ?>"
+                        data-price="<?= $row['harga']; ?>">
+
+                        <span class="menu-badge badge-minuman">Minuman</span>
+
+                        <img src="img/<?= htmlspecialchars($row['gambar']); ?>"
+                             onerror="this.src='img/default.jpg'"
+                             class="menu-card-img"
+                             alt="<?= htmlspecialchars($row['nama_menu']); ?>">
+
+                        <h3 class="menu-card-title">
+                            <?= htmlspecialchars($row['nama_menu']); ?>
+                        </h3>
+
+                        <p class="menu-card-price">
+                            IDR <?= number_format($row['harga'], 0, ',', '.'); ?>
+                        </p>
+
+                        <button class="add-to-cart">+ Tambah</button>
+                    </div>
+                <?php
+                    }
+                } else {
+                    echo '<p class="menu-empty">Menu minuman belum tersedia.</p>';
+                }
+                ?>
+            </div>
+        </div>
+
+    </section>
     <!-- Menu Section End -->
 
-
-    <!-- Contact Section Start-->
-     <section id="contact" class="contact page-section">
+    <!-- Contact Section Start -->
+    <section id="contact" class="contact page-section">
         <h2><span>Kontak</span> Kami</h2>
         <p>Kami siap melayani setiap pertanyaan dan kebutuhan Anda</p>
 
@@ -180,10 +233,8 @@ if (isset($_POST['kirim'])) {
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d506032.2804479608!2d112.50769092482535!3d-7.749757131115283!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7cdd787edb5ed%3A0x3027a76e352bdd0!2sPasuruan%2C%20Jawa%20Timur!5e0!3m2!1sid!2sid!4v1777292581296!5m2!1sid!2sid" 
              allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="map"></iframe>
 
-
-             <form action="" method="POST">
-
-        <div class="input-group">
+            <form action="" method="POST">
+                <div class="input-group">
                     <i data-feather="user"></i> 
                     <input type="text" name="nama" placeholder="Nama" required>
                 </div>
@@ -203,17 +254,13 @@ if (isset($_POST['kirim'])) {
                 </div>
 
                 <button type="submit" name="kirim" class="btn">Kirim Pesan</button>
-
             </form>
-
         </div>
+    </section>
+    <!-- Contact Section End -->
 
-     </section>
-     <!-- Contact Section End-->
-
-
-    <!-- Footer Start-->
-     <footer>
+    <!-- Footer Start -->
+    <footer>
         <div class="socials">
             <a href="#"><i data-feather="instagram"></i></a>
             <a href="#"><i data-feather="twitter"></i></a>
@@ -230,11 +277,10 @@ if (isset($_POST['kirim'])) {
         <div class="creadit">
             <p>Create by <a href="">Ruang Rasa</a>. | &copy; 2026.</p>
         </div>
-     </footer>
-    <!-- Footer END-->
+    </footer>
+    <!-- Footer End -->
 
-
-    <!-- Shopping Cart Start-->
+    <!-- Shopping Cart Start -->
     <div class="cart" id="cart">
         <div class="cart-header">
             <h3>Keranjang</h3>
@@ -257,15 +303,42 @@ if (isset($_POST['kirim'])) {
     </div>
     <!-- Shopping Cart End -->
 
-
-
     <!-- Feather Icons -->
     <script>
       feather.replace();
     </script>
 
     <!-- My Javascript -->
-     <script src="js/script.js"></script>
-    
+    <script src="js/script.js"></script>
+
+    <!-- Menu Kategori Script -->
+    <script>
+        const tabs = document.querySelectorAll('.menu-tab');
+        const sections = {
+            makanan: document.getElementById('section-makanan'),
+            minuman: document.getElementById('section-minuman'),
+        };
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                const filter = tab.getAttribute('data-filter');
+
+                if (filter === 'all') {
+                    sections.makanan.style.display = '';
+                    sections.minuman.style.display = '';
+                } else if (filter === 'makanan') {
+                    sections.makanan.style.display = '';
+                    sections.minuman.style.display = 'none';
+                } else if (filter === 'minuman') {
+                    sections.makanan.style.display = 'none';
+                    sections.minuman.style.display = '';
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>
