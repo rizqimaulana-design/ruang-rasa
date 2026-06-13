@@ -14,16 +14,34 @@ if (isset($_POST['login'])) {
     $username = trim($_POST['username'] ?? '');
     $password = $_POST['password'] ?? '';
 
+    // ── Cek tabel admin dulu ──────────────────────────────────────
     $stmt = $conn->prepare("SELECT username, password FROM admin WHERE username = ? LIMIT 1");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
-    $admin = $result ? $result->fetch_assoc() : null;
+    $admin  = $result ? $result->fetch_assoc() : null;
     $stmt->close();
 
     if ($admin && password_verify($password, $admin['password'])) {
         $_SESSION['admin'] = $admin['username'];
-        header("Location:index.php");
+        header("Location: index.php");
+        exit;
+    }
+
+    // ── Kalau bukan admin, cek tabel akun_dapur ───────────────────
+    $stmt2 = $conn->prepare("SELECT id, username, password, nama, role FROM akun_dapur WHERE username = ? LIMIT 1");
+    $stmt2->bind_param("s", $username);
+    $stmt2->execute();
+    $result2 = $stmt2->get_result();
+    $dapur   = $result2 ? $result2->fetch_assoc() : null;
+    $stmt2->close();
+
+    if ($dapur && password_verify($password, $dapur['password'])) {
+        $_SESSION['dapur_logged_in'] = true;
+        $_SESSION['dapur_nama']      = $dapur['nama'];
+        $_SESSION['dapur_id']        = $dapur['id'];
+        $_SESSION['user_role']       = $dapur['role'];
+        header("Location: dapur.php");
         exit;
     }
 
@@ -69,10 +87,7 @@ if (isset($_POST['login'])) {
             text-align: center;
         }
 
-        /* --- Logo --- */
-        .login-logo {
-            margin-bottom: 1rem;
-        }
+        .login-logo { margin-bottom: 1rem; }
 
         .login-logo-text {
             font-size: 24px;
@@ -80,17 +95,9 @@ if (isset($_POST['login'])) {
             letter-spacing: -0.3px;
         }
 
-        .login-logo-text em {
-            font-style: italic;
-            color: #c8863c;
-        }
+        .login-logo-text em { font-style: italic; color: #c8863c; }
+        .login-logo-text span { font-style: normal; color: #f5e6d0; }
 
-        .login-logo-text span {
-            font-style: normal;
-            color: #f5e6d0;
-        }
-
-        /* --- Divider --- */
         .login-divider {
             display: flex;
             align-items: center;
@@ -98,32 +105,13 @@ if (isset($_POST['login'])) {
             margin: 0.75rem 0 1.25rem;
         }
 
-        .login-divider hr {
-            flex: 1;
-            border: none;
-            border-top: 1px solid #3a2518;
-        }
+        .login-divider hr { flex: 1; border: none; border-top: 1px solid #3a2518; }
+        .login-divider i { font-size: 18px; color: #c8863c; }
 
-        .login-divider i {
-            font-size: 18px;
-            color: #c8863c;
-        }
+        h2 { font-size: 20px; font-weight: 600; color: #f5e6d0; margin-bottom: 4px; }
 
-        /* --- Heading --- */
-        h2 {
-            font-size: 20px;
-            font-weight: 600;
-            color: #f5e6d0;
-            margin-bottom: 4px;
-        }
+        .login-subtitle { font-size: 13px; color: #8a6245; margin-bottom: 1.75rem; }
 
-        .login-subtitle {
-            font-size: 13px;
-            color: #8a6245;
-            margin-bottom: 1.75rem;
-        }
-
-        /* --- Error --- */
         .error {
             display: flex;
             align-items: center;
@@ -138,7 +126,6 @@ if (isset($_POST['login'])) {
             margin-bottom: 1.25rem;
         }
 
-        /* --- Field label --- */
         .field-label {
             display: block;
             text-align: left;
@@ -151,12 +138,7 @@ if (isset($_POST['login'])) {
             margin-top: 1rem;
         }
 
-        /* --- Field wrap --- */
-        .field-wrap {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
+        .field-wrap { position: relative; display: flex; align-items: center; }
 
         .field-wrap > i.bi {
             position: absolute;
@@ -167,7 +149,6 @@ if (isset($_POST['login'])) {
             z-index: 1;
         }
 
-        /* --- Input --- */
         .field-wrap input {
             width: 100%;
             height: 46px;
@@ -182,16 +163,13 @@ if (isset($_POST['login'])) {
             transition: border-color 0.2s, box-shadow 0.2s;
         }
 
-        .field-wrap input::placeholder {
-            color: #6b4a30;
-        }
+        .field-wrap input::placeholder { color: #6b4a30; }
 
         .field-wrap input:focus {
             border-color: #c8863c;
             box-shadow: 0 0 0 3px rgba(200, 134, 60, 0.15);
         }
 
-        /* --- Toggle password --- */
         .toggle-pwd {
             position: absolute;
             right: 10px;
@@ -212,12 +190,8 @@ if (isset($_POST['login'])) {
             transition: color 0.2s;
         }
 
-        .toggle-pwd:hover {
-            color: #c8863c;
-            background: none;
-        }
+        .toggle-pwd:hover { color: #c8863c; background: none; }
 
-        /* --- Lupa password --- */
         .lupa-pwd {
             display: block;
             text-align: right;
@@ -228,11 +202,8 @@ if (isset($_POST['login'])) {
             transition: color 0.2s;
         }
 
-        .lupa-pwd:hover {
-            color: #e0a050;
-        }
+        .lupa-pwd:hover { color: #e0a050; }
 
-        /* --- Submit button --- */
         .btn-login {
             width: 100%;
             height: 46px;
@@ -260,7 +231,6 @@ if (isset($_POST['login'])) {
             color: #f0c880;
         }
 
-        /* --- Footer --- */
         .login-footer {
             display: flex;
             align-items: center;
@@ -271,9 +241,7 @@ if (isset($_POST['login'])) {
             margin-top: 1.5rem;
         }
 
-        .login-footer i {
-            font-size: 13px;
-        }
+        .login-footer i { font-size: 13px; }
     </style>
 </head>
 <body>
@@ -303,26 +271,18 @@ if (isset($_POST['login'])) {
         <label class="field-label" for="username">Username</label>
         <div class="field-wrap">
             <i class="bi bi-envelope"></i>
-            <input
-                type="text"
-                id="username"
-                name="username"
-                placeholder="Masukkan username"
-                required
-                autocomplete="username">
+            <input type="text" id="username" name="username"
+                   placeholder="Masukkan username"
+                   required autocomplete="username">
         </div>
 
         <label class="field-label" for="password">Password</label>
         <div class="field-wrap">
             <i class="bi bi-lock"></i>
-            <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Masukkan password"
-                required
-                autocomplete="current-password"
-                style="padding-right: 42px;">
+            <input type="password" id="password" name="password"
+                   placeholder="Masukkan password"
+                   required autocomplete="current-password"
+                   style="padding-right: 42px;">
             <button type="button" class="toggle-pwd" onclick="togglePassword()" aria-label="Tampilkan password">
                 <i class="bi bi-eye" id="eye-icon"></i>
             </button>
@@ -346,7 +306,7 @@ if (isset($_POST['login'])) {
 
 <script>
     function togglePassword() {
-        const pwd = document.getElementById('password');
+        const pwd  = document.getElementById('password');
         const icon = document.getElementById('eye-icon');
         if (pwd.type === 'password') {
             pwd.type = 'text';
